@@ -1,68 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <meta charset="UTF-8">
+    <title>ATP Smash by dionhagan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
-
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <title>ATP Smash by dionhagan</title>
   </head>
-
   <body>
-    <header>
-      <div class="inner">
-        <h1>ATP Smash</h1>
-        <h2></h2>
-        <a href="https://github.com/dionhagan/atp-smash-final-project" class="button"><small>View project on</small> GitHub</a>
-      </div>
-    </header>
+    <section class="page-header">
+      <h1 class="project-name">ATP Smash</h1>
+      <h2 class="project-tagline"></h2>
+      <a href="https://github.com/dionhagan/atp-smash-final-project" class="btn">View on GitHub</a>
+      <a href="https://github.com/dionhagan/atp-smash-final-project/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/dionhagan/atp-smash-final-project/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h3>
-<a id="goal" class="anchor" href="#goal" aria-hidden="true"><span class="octicon octicon-link"></span></a>Goal</h3>
+    <section class="main-content">
+      <h3>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h3>
+
+<p>The tennis world’s commentary is tremendously biased towards discussing the top 10 or even the top 4 tennis players, so any light we can shed on what characterizes them would be enlightening.  We’d like to explore what defines them.</p>
+
+<p>One of our goals is to build a predictive model to determine outcomes of prospective match-ups between top players. By using a combination of models with extensive data from past years, we hope to learn what factors most importantly contribute to a match’s outcome and make effective predictions of future matches based on past data.</p>
 
 <h3>
 <a id="data-acquisition" class="anchor" href="#data-acquisition" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data Acquisition</h3>
 
+<p>We have 3 datasets that are present in many CSVs from a single account on Github.  The first dataset is a detailed breakdown of every point in Grand Slam tournaments (the 4 most important tournaments per year) since 2011.  It is about 20000 rows per tournament, and there are about 16 tournaments.The second dataset is a less detailed breakdown of every match played since 1999, with approximately 3000 matches per year.  The third dataset contains point by point breakdown of matches from 2012 onwards, but is incomplete.</p>
+
 <h3>
 <a id="exploratory-data-analysis" class="anchor" href="#exploratory-data-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Exploratory Data Analysis</h3>
+
+<p>For our EDA, we analyzed the top 4 players vs all other pro tennis players. We wanted to examine what makes the top players so much better than the rest.</p>
+
+<ul>
+<li>How do the top 4 compare when beating other players?</li>
+<li>How do the top 4 players play against each other? What is the usual distribution of statistics when one beats another?</li>
+<li>Federer is controversially considered the best player of all time - how is he playing now and how has he changed since beginning?   - Some say that he is playing better but he has been playing more aggressively.  Is this actually true?</li>
+<li>How about surface? Do either of these matter as much as most people think they do?</li>
+</ul>
 
 <h3>
 <a id="classification-model" class="anchor" href="#classification-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Classification Model</h3>
 
-<h4>
-<a id="classification-of-match-winners" class="anchor" href="#classification-of-match-winners" aria-hidden="true"><span class="octicon octicon-link"></span></a>Classification of Match Winners</h4>
-
 <h3>
 <a id="results" class="anchor" href="#results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Results</h3>
-        </section>
 
-        <aside id="sidebar">
-          <a href="https://github.com/dionhagan/atp-smash-final-project/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/dionhagan/atp-smash-final-project/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/dionhagan/atp-smash-final-project">ATP Smash</a> is maintained by <a href="https://github.com/dionhagan">dionhagan</a>.</span>
 
-          <p class="repo-owner"><a href="https://github.com/dionhagan/atp-smash-final-project"></a> is maintained by <a href="https://github.com/dionhagan">dionhagan</a>.</p>
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
 
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
-    </div>
+    </section>
 
   
   </body>
