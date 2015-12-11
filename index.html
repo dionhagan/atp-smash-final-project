@@ -19,35 +19,137 @@
     </section>
 
     <section class="main-content">
-      <h3>
-<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h3>
+      <h1>
+<a id="table-of-contents" class="anchor" href="#table-of-contents" aria-hidden="true"><span class="octicon octicon-link"></span></a>Table of Contents</h1>
 
-<p>The tennis world’s commentary is tremendously biased towards discussing the top 10 or even the top 4 tennis players, so any light we can shed on what characterizes them would be enlightening.  We’d like to explore what defines them.</p>
+<ol>
+<li>Process Write-up
+    * Overview and Motivation
+    * Data Clean-up
+    * Prediction</li>
+<li>Data Clean-up</li>
+<li>Feature Creation</li>
+<li>Prediction
+    * Some Exploratory Data Analysis
+    * Individual Logistic Regression (and other algorithms)
+    * Stacked Regression
+    </li>
+<li>Point by Point Simulator
+    * Link: 
+    * Scraping
+    * Simulator Function
+    * Match Simulator
+    * Analysis of n-Match Simulator</li>
+</ol>
 
-<p>One of our goals is to build a predictive model to determine outcomes of prospective match-ups between top players. By using a combination of models with extensive data from past years, we hope to learn what factors most importantly contribute to a match’s outcome and make effective predictions of future matches based on past data.</p>
+<h1>
+<a id="overview-and-motivation" class="anchor" href="#overview-and-motivation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview and Motivation</h1>
+
+<p>Sports prediction is a notoriously difficult task.  Whole architectures and betting regimes have developed for each sport, and tennis is no different.  The ATP ranking system for players is a very particular system that awards varying points to players according to their win/loss result in a tournament.  The amount of points depends upon the tournament type and what round the player lost in.  However, it is unclear whether this is a very good marker of whether one player will beat another particular player, since the points for each are fairly arbitrary.  Two of us are avid tennis players and we had some inspiration from fivethirtyeight.com which often analyzes the ratings and strengths of players in competitive games.  We felt there was thus a need to investigate alternative rating systems for tennis players, for both descriptive and predictive capacities.  How good are the rating systems at assessing player strengths?  What alternatives might be good for prediction?</p>
+
+<p>To this end, we had two approaches.  We took a macro-level historical approach.  Based off of players' historical outcomes in matches against one another and their ratings at the time, we trained classification models off of match results.  This was a  micro-level approach whereby we used Markov models to simulate the evolution of a tennis match, point-by-point, given input characteristics of players and the surface they played on.</p>
+
+<h2>
+<a id="data-clean-up" class="anchor" href="#data-clean-up" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data Clean-up</h2>
 
 <h3>
-<a id="data-acquisition" class="anchor" href="#data-acquisition" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data Acquisition</h3>
+<a id="macro-data-collection-and-clean-up" class="anchor" href="#macro-data-collection-and-clean-up" aria-hidden="true"><span class="octicon octicon-link"></span></a>Macro Data Collection and Clean-up</h3>
 
-<p>We have 3 datasets that are present in many CSVs from a single account on Github.  The first dataset is a detailed breakdown of every point in Grand Slam tournaments (the 4 most important tournaments per year) since 2011.  It is about 20000 rows per tournament, and there are about 16 tournaments.The second dataset is a less detailed breakdown of every match played since 1999, with approximately 3000 matches per year.  The third dataset contains point by point breakdown of matches from 2012 onwards, but is incomplete.</p>
+<p>We collected ATP match results from <a href="https://github.com/JeffSackmann/tennis_atp">https://github.com/JeffSackmann/tennis_atp</a>. 
+For the Match Results: Data clean-up for the match results required making sure that dataframes were properly constructed and concatenated.  This was made more difficult because CSV file had additional information on matches from different years (point by point data), and the way the matches were identified was different in both dataframes.  Therefore, we had to go through a complex process of ascertaining and creating columns that could be used to uniquely identify matches from both datasets in order to combine the datasets correctly.</p>
 
-<h3>
-<a id="exploratory-data-analysis" class="anchor" href="#exploratory-data-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Exploratory Data Analysis</h3>
-
-<p>For our EDA, we analyzed the top 4 players vs all other pro tennis players. We wanted to examine what makes the top players so much better than the rest.</p>
-
-<ul>
-<li>How do the top 4 compare when beating other players?</li>
-<li>How do the top 4 players play against each other? What is the usual distribution of statistics when one beats another?</li>
-<li>Federer is controversially considered the best player of all time - how is he playing now and how has he changed since beginning?   - Some say that he is playing better but he has been playing more aggressively.  Is this actually true?</li>
-<li>How about surface? Do either of these matter as much as most people think they do?</li>
-</ul>
+<p>Before delving into any predictive models, we sought to create some useful features to aid in prediction beyond those that were already contained.  This included some things like the recent and overall head to head score between the players and indicators for the kinds of players and matches involved.  We cleaned up the data and excluded matches where we were missing ranks for some of the players - in tennis, this is okay because there is very little chance for an unranked player to beat a ranked players, and many of those matches were also missing other information as well.</p>
 
 <h3>
-<a id="classification-model" class="anchor" href="#classification-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Classification Model</h3>
+<a id="micro-data-collection-and-clean-up" class="anchor" href="#micro-data-collection-and-clean-up" aria-hidden="true"><span class="octicon octicon-link"></span></a>Micro Data Collection and Clean-up</h3>
+
+<p>Scraping information from atpworldtour.com, we assembled our own database with serve and return percentages of top 100 players by surface over the past 25 years. These stats included players’ first serve percentage, first serve points won, second serve points won, first serve return points won, and second serve return points won.</p>
+
+<h2>
+<a id="delving-into-prediction" class="anchor" href="#delving-into-prediction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Delving into Prediction</h2>
+
+<h1>
+<a id="exploratory-data-analysis" class="anchor" href="#exploratory-data-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Exploratory Data Analysis</h1>
+
+<p>After constructing the columns for the Elo, Glicko, and Trueskill rating systems, we plotted the ratings of the top 5 players over their career so far. This better illustrates who is really the greatest of all time but showing peak rating and number of games played until each player's rating begins to stabilize.</p>
+
+<h1>
+<a id="classification-micro-level" class="anchor" href="#classification-micro-level" aria-hidden="true"><span class="octicon octicon-link"></span></a>Classification: Micro Level</h1>
+
+<p>To find the best fit model for predicting our data, we tried fitting several different types of classifiers to our data.</p>
+
+<h2>
+<a id="baseline-model" class="anchor" href="#baseline-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Baseline Model</h2>
+
+<p>For our baseline model, we considered how most uninformed parties would bet on the winner and decided that a model in which we always select the higher ranked player to win would be the best model to start with. Therefore, we planned to make our ultimate decision relative to this model. This baseline model resulted in around 65% accuracy, our number to beat.</p>
+
+<h2>
+<a id="logistic-regression" class="anchor" href="#logistic-regression" aria-hidden="true"><span class="octicon octicon-link"></span></a>Logistic Regression</h2>
+
+<p>Since we want our model to predict a binary success for a given player, we decided to first try a Logistic Regression classifier. We fit 3 separate models on each pair's rating difference/mean for each rating system. These models all predicted the winner with around a 65-66% accuracy rate, which essentially performs at the same level as our baseline model.</p>
+
+<p>Because these models did not individually predict much higher than our baseline model, we attempted to combine the results of each predictor by creating a stacked regression ensemble that regresses on the three classifiers as predictors. However, even as an ensemble it didn't predict any better than our baseline or logistic regression models.</p>
+
+<h2>
+<a id="naive-bayes" class="anchor" href="#naive-bayes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Naive Bayes</h2>
+
+<p>The next model we fit was the Naive Bayes model; however, for this model we considered that we should perhaps include all of the features and engineer some more to increase the model's predictive power. We added features to keep track of a players head to head win percentage/count as well as whether or not the player was in the top 10 (better players)</p>
+
+<h2>
+<a id="adaboost" class="anchor" href="#adaboost" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adaboost</h2>
+
+<p>While the additional features didn't help improve the accuracy in the Naive Bayes model, the ensemble Adaboost classifier experienced a dramatic increase in accuracy, predictting 92% correctly on the test set.</p>
+
+<h1>
+<a id="graphic-analysis" class="anchor" href="#graphic-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Graphic Analysis</h1>
+
+<h2>
+<a id="roc" class="anchor" href="#roc" aria-hidden="true"><span class="octicon octicon-link"></span></a>ROC</h2>
+
+<p>From the ROC graph we can see that the Adaboost has a much greater area under the curve than the competing classifiers. This indicates to us, along with the improved accuracy, that this is a much better model than the previous models we constructed.</p>
+
+<h2>
+<a id="relative-feature-importance" class="anchor" href="#relative-feature-importance" aria-hidden="true"><span class="octicon octicon-link"></span></a>Relative Feature Importance</h2>
+
+<p>Since we're ultimately interested in the factors of a player that make him more likely to win a given match, we also took a look at the importance of each individual feature relative to the others in the Adaboost classifier model. As illustrated in the graph below, the rating systems were the strongest predictive factors in the model with the Glicko rating system proving far more useful of a predictor than the rest. Because many of the predictors in our models were fairly uninformative, we can shed more light on why our original results were so close to the baseline model. We just didn't have enough data to properly learn the models in those cases.</p>
 
 <h3>
-<a id="results" class="anchor" href="#results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Results</h3>
+<a id="classification-macro-level" class="anchor" href="#classification-macro-level" aria-hidden="true"><span class="octicon octicon-link"></span></a>Classification: Macro Level</h3>
+
+<h4>
+<a id="key-issues" class="anchor" href="#key-issues" aria-hidden="true"><span class="octicon octicon-link"></span></a>Key issues</h4>
+
+<p>The macro-level approach essentially used match-level data for predictions.  However, this problem is actually quite tricky due to the way that pairwise competitive matches are encoded.  We wrestled with this for quite a while - essentially, what is the right way to encode the response variable, given that we know who the winners and losers are for each match?  A full discussion can be seen here: <a href="http://stats.stackexchange.com/questions/11800/how-should-we-convert-sports-results-data-to-perform-a-valid-logistical-regressi.%C2%A0%C2%A0Tennis">http://stats.stackexchange.com/questions/11800/how-should-we-convert-sports-results-data-to-perform-a-valid-logistical-regressi.  Tennis</a> lacks an intuitive way for doing this (for example, home team vs. away team), so we ultimately opted to go with a duplication of the dataset with the exactly reversed outcomes and statistics.  This provides the symmetry and balance negative classes necessary for the logistic regression to perform accurately.</p>
+
+<p>We then created some key metrics of prediction, notably implementing the elo, glicko, and trueskill rating systems.  These rating systems have the same goal of representing players’ relative difference in skill and lend us a significant degree of predictive power when forecasting a match.  However, it is very important to encode these systems correctly, particularly given the way the response variable was encoded.  This was discussed with professor who does sports prediction.  Therefore, rather than reporting the raw ratings outputted by each system, instead we used the relative ratings between the players.  These relative ratings are contained in two variables - the mean of the two ratings and the difference between the two ratings.  This encoding method is very much consistent with the idea of symmetry as created by the duplication of a reversed dataset.</p>
+
+<h4>
+<a id="prediction-paradigm" class="anchor" href="#prediction-paradigm" aria-hidden="true"><span class="octicon octicon-link"></span></a>Prediction Paradigm</h4>
+
+<p>We used two paradigms for prediction: cross-validation and "holdout" validation.  For cross-validation, we experimented with separately using each rating system as a predictor, as well as using combinations of them.  In the "holdout" paradigm, we split the data into explicit training/validation/test sets.  We fit each rating model separately and then made an ensemble of their prediction results to see if we could generate any additional predictive power.</p>
+
+<h3>
+<a id="classification-results" class="anchor" href="#classification-results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Classification: Results</h3>
+
+<p>Using the head to head, ranking, elo, glicko, trueskill</p>
+
+<h3>
+<a id="markov-model-micro-level" class="anchor" href="#markov-model-micro-level" aria-hidden="true"><span class="octicon octicon-link"></span></a>Markov Model: Micro Level</h3>
+
+<p>The micro-level approach essentially used the internal statistics for particular players to create a generative model for the evolution of a particular match.  This emphasized the serve, return and surface statistics, since these are well-known to highly affect outcomes.  These were in-match statistics that we couldn't take advantage of in the macro-level approach, and we wanted to exhaust the useful information within and beyond our datasets.</p>
+
+<p>In tennis there are three general types of courts: clay, hard, and grass (we have left out several more specialized types of courts for simplicity, such as indoor and carpet). Many pro players exhibit differences in performance across these three surfaces. Historically, aggressive players have performed better on hard and grass courts, as the ball travels faster off the bounce, while defensive players prefer the extra recovery time allotted by clay courts.</p>
+
+<p>(photo link: <a href="http://cdn.theatlantic.com/static/mt/assets/culture_test/nadal%20courts%20craft%20apimages%20615.png">http://cdn.theatlantic.com/static/mt/assets/culture_test/nadal%20courts%20craft%20apimages%20615.png</a>)</p>
+
+<p>In tennis, players alternate games as server. Within each game, they are allowed up to two serves per point. By normalizing players’ win percentages on first and second serves with their opponents’ win percentages on first and second serve returns, we created new overall percentages for players to win points on their serves. Given our dataset, these normalized percentages are meant to reflect players’ relative effectiveness as server and returner on a given surface in a given year.</p>
+
+<p>To begin the match, our simulator flips a coin and chooses to let one of the two players serve. Then, with respect to tennis’ scoring system, the match progresses point after point, until a player wins two out of three sets.</p>
+
+<h3>
+<a id="markov-model-results" class="anchor" href="#markov-model-results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Markov Model: Results</h3>
+
+<p>To explore players’ relative effectiveness on different court surfaces, we may run thousands of match simulations, keeping track of the winner in each. For example, take the matchup between world no. 1 Novak Djokovic and world no. 5 David Ferrer in 2011. While Djokovic is clearly a better player, Ferrer certainly possesses an affinity for clay courts. When we run 10,000 match simulations on clay, Djokovic wins just over 50% of them. When we run 10,000 matches on grass, however, Djokovic seems to come out on top around 70% of the time. From this simulator, this example being one among many, we see the great effect that court surface may have upon the outcome of a match.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/dionhagan/atp-smash-final-project">ATP Smash</a> is maintained by <a href="https://github.com/dionhagan">dionhagan</a>.</span>
