@@ -73,6 +73,12 @@ For the Match Results: Data clean-up for the match results required making sure 
 
 <p>After constructing the columns for the Elo, Glicko, and Trueskill rating systems, we plotted the ratings of the top 5 players over their career so far. This better illustrates who is really the greatest of all time but showing peak rating and number of games played until each player's rating begins to stabilize.</p>
 
+<p><img src="https://raw.githubusercontent.com/dionhagan/atp-smash-final-project/master/images/top5elo.png?token=AJ7m-_OHuAS23QI9lKugbVhDKGn6_iq9ks5WdfmUwA%3D%3D" alt="Elo"></p>
+
+<p><img src="https://raw.githubusercontent.com/dionhagan/atp-smash-final-project/master/images/top5glicko.png?token=AJ7m-8fpzeadMyLL8GSGE2oycFE-yidRks5WdfmuwA%3D%3D" alt="Glicko"></p>
+
+<p><img src="https://raw.githubusercontent.com/dionhagan/atp-smash-final-project/master/images/top5ts.png?token=AJ7m-zRhfye1nVNsPH8rjveKzeOzjdeBks5WdguEwA%3D%3D" alt="Trueskill"></p>
+
 <h1>
 <a id="classification-micro-level" class="anchor" href="#classification-micro-level" aria-hidden="true"><span class="octicon octicon-link"></span></a>Classification: Micro Level</h1>
 
@@ -131,7 +137,11 @@ For the Match Results: Data clean-up for the match results required making sure 
 <h3>
 <a id="classification-results" class="anchor" href="#classification-results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Classification: Results</h3>
 
-<p>Using the head to head, ranking, elo, glicko, trueskill</p>
+<p>Using the head to head, ranking, elo, glicko, trueskill - TODO</p>
+
+<p><img src="https://raw.githubusercontent.com/dionhagan/atp-smash-final-project/master/images/roc.png?token=AJ7m-5wLjatekBZJjMxPw0iO3MQywDvsks5WdfimwA%3D%3D" alt="ROC"></p>
+
+<p><img src="https://raw.githubusercontent.com/dionhagan/atp-smash-final-project/master/images/featureimportance.png?token=AJ7m-2lFQzIHjBSU-azuOya5OZJEtNLNks5Wdfk0wA%3D%3D" alt="Feature Importance"></p>
 
 <h3>
 <a id="markov-model-micro-level" class="anchor" href="#markov-model-micro-level" aria-hidden="true"><span class="octicon octicon-link"></span></a>Markov Model: Micro Level</h3>
@@ -140,7 +150,7 @@ For the Match Results: Data clean-up for the match results required making sure 
 
 <p>In tennis there are three general types of courts: clay, hard, and grass (we have left out several more specialized types of courts for simplicity, such as indoor and carpet). Many pro players exhibit differences in performance across these three surfaces. Historically, aggressive players have performed better on hard and grass courts, as the ball travels faster off the bounce, while defensive players prefer the extra recovery time allotted by clay courts.</p>
 
-<p>(photo link: <a href="http://cdn.theatlantic.com/static/mt/assets/culture_test/nadal%20courts%20craft%20apimages%20615.png">http://cdn.theatlantic.com/static/mt/assets/culture_test/nadal%20courts%20craft%20apimages%20615.png</a>)</p>
+<p><img src="http://cdn.theatlantic.com/static/mt/assets/culture_test/nadal%20courts%20craft%20apimages%20615.png" alt="nadal"></p>
 
 <p>In tennis, players alternate games as server. Within each game, they are allowed up to two serves per point. By normalizing players’ win percentages on first and second serves with their opponents’ win percentages on first and second serve returns, we created new overall percentages for players to win points on their serves. Given our dataset, these normalized percentages are meant to reflect players’ relative effectiveness as server and returner on a given surface in a given year.</p>
 
