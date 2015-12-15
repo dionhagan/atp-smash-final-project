@@ -23,23 +23,11 @@
 <a id="table-of-contents" class="anchor" href="#table-of-contents" aria-hidden="true"><span class="octicon octicon-link"></span></a>Table of Contents</h1>
 
 <ol>
-<li>Process Write-up
-    * Overview and Motivation
-    * Data Clean-up
-    * Prediction</li>
+<li>Process Write-up</li>
 <li>Data Clean-up</li>
 <li>Feature Creation</li>
-<li>Prediction
-    * Some Exploratory Data Analysis
-    * Individual Logistic Regression (and other algorithms)
-    * Stacked Regression
-    </li>
-<li>Point by Point Simulator
-    * Link: 
-    * Scraping
-    * Simulator Function
-    * Match Simulator
-    * Analysis of n-Match Simulator</li>
+<li>Prediction </li>
+<li>Point by Point Simulator</li>
 </ol>
 
 <h1>
@@ -68,8 +56,8 @@ For the Match Results: Data clean-up for the match results required making sure 
 <h2>
 <a id="delving-into-prediction" class="anchor" href="#delving-into-prediction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Delving into Prediction</h2>
 
-<h1>
-<a id="exploratory-data-analysis" class="anchor" href="#exploratory-data-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Exploratory Data Analysis</h1>
+<h3>
+<a id="exploratory-data-analysis" class="anchor" href="#exploratory-data-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Exploratory Data Analysis</h3>
 
 <p>After constructing the columns for the Elo, Glicko, and Trueskill rating systems, we plotted the ratings of the top 5 players over their career so far. This better illustrates who is really the greatest of all time but showing peak rating and number of games played until each player's rating begins to stabilize.</p>
 
@@ -79,45 +67,49 @@ For the Match Results: Data clean-up for the match results required making sure 
 
 <p><img src="https://raw.githubusercontent.com/dionhagan/atp-smash-final-project/master/images/top5ts.png?token=AJ7m-zRhfye1nVNsPH8rjveKzeOzjdeBks5WdguEwA%3D%3D" alt="Trueskill"></p>
 
-<h1>
-<a id="classification-micro-level" class="anchor" href="#classification-micro-level" aria-hidden="true"><span class="octicon octicon-link"></span></a>Classification: Micro Level</h1>
+<h2>
+<a id="classification-micro-level" class="anchor" href="#classification-micro-level" aria-hidden="true"><span class="octicon octicon-link"></span></a>Classification: Micro Level</h2>
 
 <p>To find the best fit model for predicting our data, we tried fitting several different types of classifiers to our data.</p>
 
-<h2>
-<a id="baseline-model" class="anchor" href="#baseline-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Baseline Model</h2>
+<h3>
+<a id="baseline-model" class="anchor" href="#baseline-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Baseline Model</h3>
 
 <p>For our baseline model, we considered how most uninformed parties would bet on the winner and decided that a model in which we always select the higher ranked player to win would be the best model to start with. Therefore, we planned to make our ultimate decision relative to this model. This baseline model resulted in around 65% accuracy, our number to beat.</p>
 
-<h2>
-<a id="logistic-regression" class="anchor" href="#logistic-regression" aria-hidden="true"><span class="octicon octicon-link"></span></a>Logistic Regression</h2>
+<h3>
+<a id="logistic-regression" class="anchor" href="#logistic-regression" aria-hidden="true"><span class="octicon octicon-link"></span></a>Logistic Regression</h3>
 
 <p>Since we want our model to predict a binary success for a given player, we decided to first try a Logistic Regression classifier. We fit 3 separate models on each pair's rating difference/mean for each rating system. These models all predicted the winner with around a 65-66% accuracy rate, which essentially performs at the same level as our baseline model.</p>
 
 <p>Because these models did not individually predict much higher than our baseline model, we attempted to combine the results of each predictor by creating a stacked regression ensemble that regresses on the three classifiers as predictors. However, even as an ensemble it didn't predict any better than our baseline or logistic regression models.</p>
 
-<h2>
-<a id="naive-bayes" class="anchor" href="#naive-bayes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Naive Bayes</h2>
+<h4>
+<a id="naive-bayes" class="anchor" href="#naive-bayes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Naive Bayes</h4>
 
 <p>The next model we fit was the Naive Bayes model; however, for this model we considered that we should perhaps include all of the features and engineer some more to increase the model's predictive power. We added features to keep track of a players head to head win percentage/count as well as whether or not the player was in the top 10 (better players)</p>
 
-<h2>
-<a id="adaboost" class="anchor" href="#adaboost" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adaboost</h2>
+<h4>
+<a id="adaboost" class="anchor" href="#adaboost" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adaboost</h4>
 
-<p>While the additional features didn't help improve the accuracy in the Naive Bayes model, the ensemble Adaboost classifier experienced a dramatic increase in accuracy, predictting 92% correctly on the test set.</p>
+<p>While the additional features didn't help improve the accuracy in the Naive Bayes model, the ensemble Adaboost classifier experienced a dramatic increase in accuracy, predicting 92% correctly on the test set.</p>
 
-<h1>
-<a id="graphic-analysis" class="anchor" href="#graphic-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Graphic Analysis</h1>
+<h3>
+<a id="graphic-analysis" class="anchor" href="#graphic-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Graphic Analysis</h3>
 
-<h2>
-<a id="roc" class="anchor" href="#roc" aria-hidden="true"><span class="octicon octicon-link"></span></a>ROC</h2>
+<h4>
+<a id="roc" class="anchor" href="#roc" aria-hidden="true"><span class="octicon octicon-link"></span></a>ROC</h4>
 
 <p>From the ROC graph we can see that the Adaboost has a much greater area under the curve than the competing classifiers. This indicates to us, along with the improved accuracy, that this is a much better model than the previous models we constructed.</p>
 
-<h2>
-<a id="relative-feature-importance" class="anchor" href="#relative-feature-importance" aria-hidden="true"><span class="octicon octicon-link"></span></a>Relative Feature Importance</h2>
+<p><img src="https://raw.githubusercontent.com/dionhagan/atp-smash-final-project/master/images/roc.png?token=AJ7m-5wLjatekBZJjMxPw0iO3MQywDvsks5WdfimwA%3D%3D" alt="ROC"></p>
+
+<h4>
+<a id="relative-feature-importance" class="anchor" href="#relative-feature-importance" aria-hidden="true"><span class="octicon octicon-link"></span></a>Relative Feature Importance</h4>
 
 <p>Since we're ultimately interested in the factors of a player that make him more likely to win a given match, we also took a look at the importance of each individual feature relative to the others in the Adaboost classifier model. As illustrated in the graph below, the rating systems were the strongest predictive factors in the model with the Glicko rating system proving far more useful of a predictor than the rest. Because many of the predictors in our models were fairly uninformative, we can shed more light on why our original results were so close to the baseline model. We just didn't have enough data to properly learn the models in those cases.</p>
+
+<p><img src="https://raw.githubusercontent.com/dionhagan/atp-smash-final-project/master/images/featureimportance.png?token=AJ7m-2lFQzIHjBSU-azuOya5OZJEtNLNks5Wdfk0wA%3D%3D" alt="Feature Importance"></p>
 
 <h3>
 <a id="classification-macro-level" class="anchor" href="#classification-macro-level" aria-hidden="true"><span class="octicon octicon-link"></span></a>Classification: Macro Level</h3>
@@ -135,22 +127,13 @@ For the Match Results: Data clean-up for the match results required making sure 
 <p>We used two paradigms for prediction: cross-validation and "holdout" validation.  For cross-validation, we experimented with separately using each rating system as a predictor, as well as using combinations of them.  In the "holdout" paradigm, we split the data into explicit training/validation/test sets.  We fit each rating model separately and then made an ensemble of their prediction results to see if we could generate any additional predictive power.</p>
 
 <h3>
-<a id="classification-results" class="anchor" href="#classification-results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Classification: Results</h3>
-
-<p>Using the head to head, ranking, elo, glicko, trueskill - TODO</p>
-
-<p><img src="https://raw.githubusercontent.com/dionhagan/atp-smash-final-project/master/images/roc.png?token=AJ7m-5wLjatekBZJjMxPw0iO3MQywDvsks5WdfimwA%3D%3D" alt="ROC"></p>
-
-<p><img src="https://raw.githubusercontent.com/dionhagan/atp-smash-final-project/master/images/featureimportance.png?token=AJ7m-2lFQzIHjBSU-azuOya5OZJEtNLNks5Wdfk0wA%3D%3D" alt="Feature Importance"></p>
-
-<h3>
 <a id="markov-model-micro-level" class="anchor" href="#markov-model-micro-level" aria-hidden="true"><span class="octicon octicon-link"></span></a>Markov Model: Micro Level</h3>
 
-<p>The micro-level approach essentially used the internal statistics for particular players to create a generative model for the evolution of a particular match.  This emphasized the serve, return and surface statistics, since these are well-known to highly affect outcomes.  These were in-match statistics that we couldn't take advantage of in the macro-level approach, and we wanted to exhaust the useful information within and beyond our datasets.</p>
+<p>The micro-level approach essentially used the internal statistics for particular players to create a generative model for the evolution of a particular match.  This emphasized the serve, return and surface statistics, since these are well-known to highly affect outcomes.  These were in-match statistics that we couldn't take advantage of in the macro-level approach, and we wanted to exhaust the useful information within and beyond our datasets.</p>
 
 <p>In tennis there are three general types of courts: clay, hard, and grass (we have left out several more specialized types of courts for simplicity, such as indoor and carpet). Many pro players exhibit differences in performance across these three surfaces. Historically, aggressive players have performed better on hard and grass courts, as the ball travels faster off the bounce, while defensive players prefer the extra recovery time allotted by clay courts.</p>
 
-<p><img src="http://cdn.theatlantic.com/static/mt/assets/culture_test/nadal%20courts%20craft%20apimages%20615.png" alt="nadal"></p>
+<p><img src="https://raw.githubusercontent.com/dionhagan/atp-smash-final-project/master/images/nadal.png?token=AJ7m-8bHxCQf818Di71_7uwZg9wdfaxdks5WeNWpwA%3D%3D" alt="nadal"></p>
 
 <p>In tennis, players alternate games as server. Within each game, they are allowed up to two serves per point. By normalizing players’ win percentages on first and second serves with their opponents’ win percentages on first and second serve returns, we created new overall percentages for players to win points on their serves. Given our dataset, these normalized percentages are meant to reflect players’ relative effectiveness as server and returner on a given surface in a given year.</p>
 
@@ -159,7 +142,18 @@ For the Match Results: Data clean-up for the match results required making sure 
 <h3>
 <a id="markov-model-results" class="anchor" href="#markov-model-results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Markov Model: Results</h3>
 
-<p>To explore players’ relative effectiveness on different court surfaces, we may run thousands of match simulations, keeping track of the winner in each. For example, take the matchup between world no. 1 Novak Djokovic and world no. 5 David Ferrer in 2011. While Djokovic is clearly a better player, Ferrer certainly possesses an affinity for clay courts. When we run 10,000 match simulations on clay, Djokovic wins just over 50% of them. When we run 10,000 matches on grass, however, Djokovic seems to come out on top around 70% of the time. From this simulator, this example being one among many, we see the great effect that court surface may have upon the outcome of a match.</p>
+<p>This is discussed in more detail in pbp_probability_model.ipynb where the respective code is.</p>
+
+<p>To explore players’ relative effectiveness on different court surfaces, we may run thousands of match simulations, keeping track of the winner in each. For example, take the matchup between world no. 1 Novak Djokovic and world no. 5 David Ferrer in 2011. While Djokovic is clearly a better player, Ferrer certainly possesses an affinity for clay courts. When we run 10,000 match simulations on clay, Djokovic wins just over 50% of them. When we run 10,000 matches on grass, however, Djokovic seems to come out on top around 70% of the time. From this simulator, one example among many, we see the great effect that court surface may have upon the outcome of a match.</p>
+
+<p><img src="https://raw.githubusercontent.com/dionhagan/atp-smash-final-project/master/images/clay.png?token=AJ7m-22ermU0-0mSg-C2SuZ6lnOGPoxnks5WeNXYwA%3D%3D" alt="clay"></p>
+
+<p><img src="https://raw.githubusercontent.com/dionhagan/atp-smash-final-project/master/images/grass.png?token=AJ7m-73fGcVB7hx2nLzcBg09JJithzs6ks5WeNYJwA%3D%3D" alt="grass"></p>
+
+<h2>
+<a id="conclusion" class="anchor" href="#conclusion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conclusion</h2>
+
+<p>Overall, we affirmed our notion that tennis matches are hard to predict. Although we initially thought specific factors like head-to-head records could help us, it turns out that the majority of pro matches are played between players who share no head-to-head history. In the end, ranking systems like elo, glicko, and even ATP rank give us a general idea of which players have performed significantly better. Within individual matchups, however, there are likely many intangible factors that make it difficult for us to surpass a 66% prediction success rate.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/dionhagan/atp-smash-final-project">ATP Smash</a> is maintained by <a href="https://github.com/dionhagan">dionhagan</a>.</span>
